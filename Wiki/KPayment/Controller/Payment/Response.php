@@ -65,11 +65,7 @@ class Response extends AbstractCheckoutRedirectAction
         $configHelper = $this->getConfigSettings();
         $objCustomerData = $this->getCustomerSession();
 
-        $isValidHash = $hashHelper->isValidHashValue($reqHash,$resHash);
-
-        //Get the object of current order.
-        $order_id = $this->session->getLastRealOrderId();
-        $order = $this->getOrderDetailByOrderId($order_id);
+        $isValidHash = $hashHelper->isValidHashValue($reqHash,$resHash);       
         $order = $this->session->getLastRealOrder();
 
         //Check whether hash value is valid or not If not valid then redirect to home page when hash value is wrong.
@@ -87,28 +83,11 @@ class Response extends AbstractCheckoutRedirectAction
 
         //check payment status according to payment response.
         if (strcasecmp($payment_status, "00") == 0) {
-            //IF payment status code is success
-            $payment = $order->getPayment();
-
-            $payment->setTransactionId($_REQUEST['RETURNINV']);
-            $payment->setLastTransId($_REQUEST['RETURNINV']);
-
+            //IF payment status code is success     
+			
             // Update order state and status.
             $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING);
             $order->setStatus(\Magento\Sales\Model\Order::STATE_PROCESSING);
-
-            $invoice = $this->invoice($order);
-            $invoice->setTransactionId($_REQUEST['RETURNINV']);
-            //$invoice->pay()->save();
-
-            // Add transaction.
-            $payment->addTransactionCommentsToOrder(
-                $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_PAYMENT),
-                __(
-                    'Amount of %1 has been paid via Kbank payment',
-                    $order->getBaseCurrency()->formatTxt($invoice->getBaseGrandTotal())
-                )
-            );
 
             //Set the complete status when payment is completed.
             $order->save();

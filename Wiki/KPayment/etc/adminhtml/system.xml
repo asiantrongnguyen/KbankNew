@@ -96,9 +96,12 @@
 
 				<field id="fillspace" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="40" translate="label" type="select">
 					<label>MCard type required?</label>
-					<source_model>Wiki\KPayment\Model\Config\Mcard</source_model>
+					<source_model>Wiki\KPayment\Model\Config\CardType</source_model>
 				</field>
-
+				<field id="auto_invoice" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="45" translate="label" type="select">
+					<label>Auto Create Invoice when payment success?</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
 				<field id="order_status" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="50" translate="label" type="select">
 					<label>New Order Status</label>
 					<source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>

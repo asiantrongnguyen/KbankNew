@@ -17,7 +17,8 @@ class Request extends \Wiki\KPayment\Controller\AbstractCheckoutRedirectAction
         $orderId = $this->getCheckoutSession()->getLastRealOrderId();
 
         if(empty($orderId)) {
-            die("Authentication Error: Order is empty.");
+            $this->_redirect('');
+            return;
         }
 
         $order = $this->getOrderDetailByOrderId($orderId);

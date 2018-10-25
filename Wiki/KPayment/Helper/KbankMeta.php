@@ -18,18 +18,18 @@ class KbankMeta
     }
 
     //Save the Payment getaway response into Kbank_meta table using the current payment order_id.
-    public function savePaymentGetawayResponse($request,$user_id) {
+    public function savePaymentGetawayResponse($request,$order_id ,$user_id) {
 
         //Extract the Payment getaway resposne object.
         extract($request, EXTR_OVERWRITE);
 
         $model = $this->objMetaFactory->create();
 
-        $metaData = $this->getKbankIdByOrderId($request['order_id']);
+        $metaData = $this->getKbankIdByOrderId($order_id);
         $Kbank_id = count($metaData) ? $metaData->getData()[0] : NULL;
 
         $model->setData('kbank_id' , $Kbank_id['kbank_id']);
-        $model->setData('order_id' , array_key_exists('order_id',$request) ? $request['order_id'] : '' );
+        $model->setData('order_id' , $order_id);
         $model->setData('user_id' , $user_id);
         $model->setData('trans_code', array_key_exists('trans_code',$request) ? $request['trans_code'] : '' );
         $model->setData('merchant_id', array_key_exists('merchant_id',$request) ? $request['merchant_id'] : '' );
