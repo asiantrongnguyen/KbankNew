@@ -128,7 +128,6 @@ class Pmgwresp extends Action
 							$info['warning_light']
 						)
 					);
-					// $order->save();
 				}
 				$payment_id = $payment->getId();
 
@@ -200,7 +199,10 @@ class Pmgwresp extends Action
 							->setIsCustomerNotified(true)
 							->save();
 					}
-				}
+				}else {
+          $order->save();
+        }
+
 			} catch (\Magento\Framework\Exception\LocalizedException $e) {
 				$this->_logger->info('Exeption', ["value"=>$e->getMessage()]);
 			}
